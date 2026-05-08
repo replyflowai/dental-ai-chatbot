@@ -1,0 +1,136 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.chat-wrapper {
+  width: 420px;
+  height: 620px;
+  background: #ffffff;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+.chat-header {
+  background: #1a73e8;
+  color: white;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.clinic-logo {
+  font-size: 28px;
+}
+
+.clinic-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.clinic-status {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message {
+  display: flex;
+}
+
+.bot-message {
+  justify-content: flex-start;
+}
+
+.user-message {
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.bot-message .bubble {
+  background: #f1f3f4;
+  color: #202124;
+  border-bottom-left-radius: 4px;
+}
+
+.user-message .bubble {
+  background: #1a73e8;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.typing .bubble {
+  background: #f1f3f4;
+  color: #888;
+  font-style: italic;
+}
+
+.chat-input-area {
+  display: flex;
+  padding: 12px 16px;
+  gap: 8px;
+  border-top: 1px solid #e0e0e0;
+  background: #fff;
+}
+
+.chat-input-area input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #dadce0;
+  border-radius: 24px;
+  font-size: 14px;
+  outline: none;
+}
+
+.chat-input-area input:focus {
+  border-color: #1a73e8;
+}
+
+.chat-input-area button {
+  padding: 10px 20px;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.chat-input-area button:hover {
+  background: #1557b0;
+}
+
+.chat-input-area button:disabled {
+  background: #a8c7fa;
+  cursor: not-allowed;
+}
