@@ -2,11 +2,6 @@ const messagesContainer = document.getElementById('chatMessages');
 const userInput = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
 
-// Allow Enter key to send
-userInput.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') sendMessage();
-});
-
 function addMessage(text, role) {
   const div = document.createElement('div');
   div.className = `message ${role === 'user' ? 'user-message' : 'bot-message'}`;
@@ -24,15 +19,13 @@ async function sendMessage() {
   userInput.value = '';
   sendBtn.disabled = true;
 
-  // Show typing indicator
   const typingDiv = addMessage('Assistant is typing...', 'bot');
-  typingDiv.classList.add('typing');
 
   try {
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text })
+      body: JSON.stringify({ message: text }) // Must match 'req.body.message' in backend
     });
 
     const data = await response.json();
@@ -41,9 +34,8 @@ async function sendMessage() {
     if (data.reply) {
       addMessage(data.reply, 'bot');
     } else {
-      addMessage('Sorry, something went wrong. Please try again.', 'bot');
+      addMessage('Sorry, I am having trouble. Please try again.', 'bot');
     }
-
   } catch (error) {
     typingDiv.remove();
     addMessage('Connection error. Please try again.', 'bot');
@@ -52,3 +44,7 @@ async function sendMessage() {
   sendBtn.disabled = false;
   userInput.focus();
 }
+
+userInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') sendMessage();
+});
