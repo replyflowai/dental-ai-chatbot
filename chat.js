@@ -1,5 +1,4 @@
 module.exports = async function handler(req, res) {
-  // 1. Safety Check: Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -7,7 +6,7 @@ module.exports = async function handler(req, res) {
   try {
     const userMessage = req.body.message;
 
-    // 2. Call Groq API
+    // FIX: This must be the GROQ URL, not OpenAI!
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -15,11 +14,11 @@ module.exports = async function handler(req, res) {
         "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "llama3-8b-8192",
+        model: "llama-3.3-70b-versatile", // Stable Groq model
         messages: [
           {
             role: "system",
-            content: "You are the AI Assistant for SmileCare Dental. Be helpful and professional."
+            content: "You are the AI Assistant for SmileCare Dental. Help users with appointments and pricing."
           },
           {
             role: "user",
@@ -31,16 +30,17 @@ module.exports = async function handler(req, res) {
 
     const data = await response.json();
 
-    // 3. Handle potential API errors from Groq
+    // If Groq returns an error, pass it through so we can see it
     if (data.error) {
+      console.error("Groq Error:", data.error);
       return res.status(500).json({ error: data.error.message });
     }
 
-    // 4. Send back the reply
-    return res.status(200).json({ reply: data.choices[0].message.content });
+    const botReply = data.choices[0].message.content;
+    return res.status(200).json({ reply: botReply });
 
   } catch (error) {
     console.error("SERVER ERROR:", error);
-    return res.status(500).json({ error: "Something went wrong on the server." });
+    return res.status(500).json({ error: "Server crashed: " + error.message });
   }
 };
